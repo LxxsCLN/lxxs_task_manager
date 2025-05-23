@@ -8,8 +8,7 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getUsers();
-                const data = await response.json();
+                const data = await getUsers();
                 setUsers(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
