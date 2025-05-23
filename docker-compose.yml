@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+    mysql:
+        image: mysql:8
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: task_manager
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql-data:/var/lib/mysql
+
+    backend:
+        build: ./backend
+        ports:
+            - "5000:5000"
+        depends_on:
+            - mysql
+        environment:
+            DB_HOST: mysql
+            DB_USER: root
+            DB_PASS: root
+            DB_NAME: task_manager
+
+volumes:
+    mysql-data:
