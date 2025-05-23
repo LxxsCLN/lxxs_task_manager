@@ -1,8 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../models/db.js");
+import { Router } from "express";
+import db from "../../db.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
     try {
         const result = await db.query("SELECT * FROM tasks");
         res.json(result.rows);
@@ -11,4 +12,4 @@ router.get("/", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

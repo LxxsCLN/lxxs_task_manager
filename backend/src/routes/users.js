@@ -1,6 +1,6 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../models/db.js");
+import { Router } from "express";
+import db from "../../db.js";
+const router = Router();
 
 router.get("/", async (req, res) => {
     try {
@@ -11,4 +11,4 @@ router.get("/", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
