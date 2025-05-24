@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
@@ -5,7 +6,13 @@ import "./i18n";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        storageKey="vite-ui-theme"
+    >
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </ThemeProvider>
 );

@@ -1,6 +1,9 @@
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import LanguageToggle from "@/components/ui/language-toggle";
 import {
     Select,
     SelectContent,
@@ -8,6 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
     AlertCircle,
     Calendar,
@@ -19,6 +23,20 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getAllTasks } from "../api/tasks.js";
+import { getAllUsers } from "../api/users.js";
+
+const statusColors = {
+    pending: "bg-gray-100 text-gray-800",
+    in_progress: "bg-blue-100 text-blue-800",
+    completed: "bg-green-100 text-green-800",
+};
+
+const priorityColors = {
+    low: "bg-gray-100 text-gray-600",
+    medium: "bg-blue-100 text-blue-600",
+    high: "bg-orange-100 text-orange-600",
+    urgent: "bg-red-100 text-red-600",
+};
 
 const Home = () => {
     const { t } = useTranslation();
@@ -30,11 +48,18 @@ const Home = () => {
     const [priorityFilter, setPriorityFilter] = useState("all");
     const [userFilter, setUserFilter] = useState("all");
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const tasksPerPage = 6;
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getAllTasks();
-                setTasks(data.data);
+                const [usersResponse, tasksResponse] = await Promise.all([
+                    getAllUsers(),
+                    getAllTasks(),
+                ]);
+                setTasks(tasksResponse.data);
+                setUsers(usersResponse.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -46,7 +71,7 @@ const Home = () => {
     const filteredTasks = useMemo(() => {
         return tasks.filter((task) => {
             const matchesSearch =
-                task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                task?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 task.description
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase());
@@ -56,13 +81,23 @@ const Home = () => {
             const matchesPriority =
                 priorityFilter === "all" || task.priority === priorityFilter;
             const matchesUser =
-                userFilter === "all" || task.user.name === userFilter;
+                userFilter === "all" || task.user_id === userFilter;
 
             return (
                 matchesSearch && matchesStatus && matchesPriority && matchesUser
             );
         });
-    }, [searchTerm, statusFilter, priorityFilter, userFilter]);
+    }, [searchTerm, statusFilter, priorityFilter, userFilter, tasks]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [filteredTasks]);
+
+    const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
+    const paginatedTasks = filteredTasks.slice(
+        (currentPage - 1) * tasksPerPage,
+        currentPage * tasksPerPage
+    );
 
     const taskStats = useMemo(() => {
         const total = tasks.length;
@@ -70,32 +105,36 @@ const Home = () => {
             (task) => task.status === "completed"
         ).length;
         const inProgress = tasks.filter(
-            (task) => task.status === "in-progress"
+            (task) => task.status === "in_progress"
         ).length;
         const urgent = tasks.filter(
             (task) => task.priority === "urgent"
         ).length;
 
         return { total, completed, inProgress, urgent };
-    }, []);
+    }, [tasks]);
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+        <div className="min-h-screen bg-gray-50 p-4 md:p-6 dark:bg-black">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
                             {t("home.title")}
                         </h1>
-                        <p className="text-gray-600 mt-1">
+                        <p className="text-gray-600 mt-1 dark:text-gray-300">
                             {t("home.description")}
                         </p>
                     </div>
-                    <Button className="flex items-center gap-2">
-                        <Plus className="h-4 w-4" />
-                        {t("home.newTask")}
-                    </Button>
+                    <div className="flex items-center gap-4">
+                        <Button className="flex items-center gap-2">
+                            <Plus className="h-4 w-4" />
+                            {t("home.newTask")}
+                        </Button>
+                        <LanguageToggle />
+                        <ThemeToggle />
+                    </div>
                 </div>
 
                 {/* Stats Cards */}
@@ -104,7 +143,7 @@ const Home = () => {
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
                                         {t("home.totalTasks")}
                                     </p>
                                     <p className="text-2xl font-bold">
@@ -122,7 +161,7 @@ const Home = () => {
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
                                         {t("home.completed")}
                                     </p>
                                     <p className="text-2xl font-bold">
@@ -140,7 +179,7 @@ const Home = () => {
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
                                         {t("home.inProgress")}
                                     </p>
                                     <p className="text-2xl font-bold">
@@ -158,8 +197,8 @@ const Home = () => {
                         <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">
-                                        {t("home.urgent")}
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                                        {t("home.multiUrgent")}
                                     </p>
                                     <p className="text-2xl font-bold">
                                         {taskStats.urgent}
@@ -210,21 +249,21 @@ const Home = () => {
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue
-                                            placeholder={t("home.allStatuses")}
+                                            placeholder={t("home.all")}
                                         />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
-                                            {t("home.allStatuses")}
+                                            {t("home.all")}
                                         </SelectItem>
                                         <SelectItem value="pending">
-                                            {t("home.pending")}
+                                            {t("home.multiPending")}
                                         </SelectItem>
                                         <SelectItem value="in_progress">
                                             {t("home.inProgress")}
                                         </SelectItem>
                                         <SelectItem value="completed">
-                                            {t("home.completed")}
+                                            {t("home.multiCompleted")}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -240,14 +279,12 @@ const Home = () => {
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue
-                                            placeholder={t(
-                                                "home.allPriorities"
-                                            )}
+                                            placeholder={t("home.all2")}
                                         />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
-                                            {t("home.allPriorities")}
+                                            {t("home.all2")}
                                         </SelectItem>
                                         <SelectItem value="low">
                                             {t("home.low")}
@@ -259,7 +296,7 @@ const Home = () => {
                                             {t("home.high")}
                                         </SelectItem>
                                         <SelectItem value="urgent">
-                                            {t("home.urgent")}
+                                            {t("home.multiUrgent")}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -275,16 +312,19 @@ const Home = () => {
                                 >
                                     <SelectTrigger className="w-full">
                                         <SelectValue
-                                            placeholder={t("allUsers")}
+                                            placeholder={t("home.all")}
                                         />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
-                                            {t("home.allUsers")}
+                                            {t("home.all")}
                                         </SelectItem>
                                         {users.map((user) => (
-                                            <SelectItem key={user} value={user}>
-                                                {user}
+                                            <SelectItem
+                                                key={user.id}
+                                                value={user.id}
+                                            >
+                                                {user.name}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -293,6 +333,124 @@ const Home = () => {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* Tasks Grid */}
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-semibold">
+                            {t("home.tasks")} ({filteredTasks.length})
+                        </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {paginatedTasks.map((task) => (
+                            <Card
+                                key={task.id}
+                                className="cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-md"
+                            >
+                                <CardHeader className="pb-3">
+                                    <div className="flex justify-between items-start">
+                                        <CardTitle className="text-lg line-clamp-2">
+                                            {task.title}
+                                        </CardTitle>
+                                        <Badge
+                                            className={
+                                                priorityColors[task.priority]
+                                            }
+                                        >
+                                            {t(`home.${task.priority}`)}
+                                        </Badge>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                                        {task.description}
+                                    </p>
+
+                                    <div className="flex items-center justify-between">
+                                        <Badge
+                                            className={
+                                                statusColors[task.status]
+                                            }
+                                        >
+                                            {t(`home.${task.status}`)}
+                                        </Badge>
+                                        <div className="flex items-center gap-2">
+                                            <Avatar className="h-6 w-6">
+                                                <AvatarImage
+                                                    src={"/placeholder.png"}
+                                                    alt={task?.name}
+                                                />
+                                            </Avatar>
+                                            <span className="text-sm text-gray-600 dark:text-gray-300">
+                                                {task?.name}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="text-xs text-gray-500 dark:text-gray-400 flex justify-between">
+                                        <span>
+                                            {task?.completed_at && (
+                                                <span>
+                                                    {t("home.completed")}:{" "}
+                                                    {new Date(
+                                                        task.completed_at
+                                                    ).toLocaleDateString()}
+                                                </span>
+                                            )}
+                                        </span>
+                                        <span>
+                                            {t("home.created")}:{" "}
+                                            {new Date(
+                                                task.created_at
+                                            ).toLocaleDateString("es-ES")}
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+
+                    <div className="flex justify-center items-center gap-2 mt-4">
+                        <Button
+                            variant="outline"
+                            onClick={() =>
+                                setCurrentPage((p) => Math.max(p - 1, 1))
+                            }
+                            disabled={currentPage === 1}
+                        >
+                            {t("home.previous")}
+                        </Button>
+                        <span className="text-sm">
+                            {t("home.page")} {currentPage} / {totalPages}
+                        </span>
+                        <Button
+                            variant="outline"
+                            onClick={() =>
+                                setCurrentPage((p) =>
+                                    Math.min(p + 1, totalPages)
+                                )
+                            }
+                            disabled={currentPage === totalPages}
+                        >
+                            {t("home.next")}
+                        </Button>
+                    </div>
+
+                    {filteredTasks.length === 0 && (
+                        <div className="text-center py-12">
+                            <div className="text-gray-400 mb-4">
+                                <Calendar className="h-12 w-12 mx-auto" />
+                            </div>
+                            <h3 className="text-lg font-medium text-gray-900 mb-2">
+                                {t("home.noTasks")}
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300">
+                                {t("home.tryAdjustingFilters")}
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

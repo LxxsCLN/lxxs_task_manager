@@ -1,5 +1,5 @@
 import axios from "axios";
 
-const API = `${import.meta.env.VITE_APP_SERVER_URL}/api/users`;
+const API = `${import.meta.env.VITE_APP_SERVER_URL}/api/users/all/users`;
 
-export const getUsers = () => axios.get(API);
+export const getAllUsers = () => axios.get(API);
