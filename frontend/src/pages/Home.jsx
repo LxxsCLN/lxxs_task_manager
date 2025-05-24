@@ -1,6 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, Calendar, Plus, User } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    AlertCircle,
+    Calendar,
+    Filter,
+    Plus,
+    Search,
+    User,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getAllTasks } from "../api/tasks.js";
@@ -157,6 +172,127 @@ const Home = () => {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Filters */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Filter className="h-5 w-5" />
+                            {t("home.filters")}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="flex flex-col space-y-2">
+                                <label className="text-sm font-medium">
+                                    {t("home.search")}
+                                </label>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                    <Input
+                                        placeholder={t("home.searchTasks")}
+                                        value={searchTerm}
+                                        onChange={(e) =>
+                                            setSearchTerm(e.target.value)
+                                        }
+                                        className="pl-10"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col space-y-2">
+                                <label className="text-sm font-medium">
+                                    {t("home.status")}
+                                </label>
+                                <Select
+                                    value={statusFilter}
+                                    onValueChange={setStatusFilter}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue
+                                            placeholder={t("home.allStatuses")}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            {t("home.allStatuses")}
+                                        </SelectItem>
+                                        <SelectItem value="pending">
+                                            {t("home.pending")}
+                                        </SelectItem>
+                                        <SelectItem value="in_progress">
+                                            {t("home.inProgress")}
+                                        </SelectItem>
+                                        <SelectItem value="completed">
+                                            {t("home.completed")}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="flex flex-col space-y-2">
+                                <label className="text-sm font-medium">
+                                    {t("home.priority")}
+                                </label>
+                                <Select
+                                    value={priorityFilter}
+                                    onValueChange={setPriorityFilter}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue
+                                            placeholder={t(
+                                                "home.allPriorities"
+                                            )}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            {t("home.allPriorities")}
+                                        </SelectItem>
+                                        <SelectItem value="low">
+                                            {t("home.low")}
+                                        </SelectItem>
+                                        <SelectItem value="medium">
+                                            {t("home.medium")}
+                                        </SelectItem>
+                                        <SelectItem value="high">
+                                            {t("home.high")}
+                                        </SelectItem>
+                                        <SelectItem value="urgent">
+                                            {t("home.urgent")}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div className="flex flex-col space-y-2">
+                                <label className="text-sm font-medium">
+                                    {t("home.assignedUser")}
+                                </label>
+                                <Select
+                                    value={userFilter}
+                                    onValueChange={setUserFilter}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue
+                                            placeholder={t("allUsers")}
+                                        />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">
+                                            {t("home.allUsers")}
+                                        </SelectItem>
+                                        {users.map((user) => (
+                                            <SelectItem key={user} value={user}>
+                                                {user}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
