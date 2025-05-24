@@ -1,3 +1,4 @@
+import { AddTaskModal } from "@/components/AddTask";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,16 +13,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import {
-    AlertCircle,
-    Calendar,
-    Filter,
-    Plus,
-    Search,
-    User,
-} from "lucide-react";
+import { t } from "i18next";
+import { AlertCircle, Calendar, Filter, Search, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getAllTasks } from "../api/tasks.js";
 import { getAllUsers } from "../api/users.js";
 
@@ -39,8 +33,6 @@ const priorityColors = {
 };
 
 const Home = () => {
-    const { t } = useTranslation();
-
     const [users, setUsers] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -104,14 +96,14 @@ const Home = () => {
         const completed = tasks.filter(
             (task) => task.status === "completed"
         ).length;
-        const inProgress = tasks.filter(
+        const in_progress = tasks.filter(
             (task) => task.status === "in_progress"
         ).length;
         const urgent = tasks.filter(
             (task) => task.priority === "urgent"
         ).length;
 
-        return { total, completed, inProgress, urgent };
+        return { total, completed, in_progress, urgent };
     }, [tasks]);
 
     return (
@@ -128,10 +120,7 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
-                        <Button className="flex items-center gap-2">
-                            <Plus className="h-4 w-4" />
-                            {t("home.newTask")}
-                        </Button>
+                        <AddTaskModal users={users} />
                         <div className="flex gap-4">
                             <LanguageToggle />
                             <ThemeToggle />
@@ -182,10 +171,10 @@ const Home = () => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                                        {t("home.inProgress")}
+                                        {t("home.in_progress")}
                                     </p>
                                     <p className="text-2xl font-bold">
-                                        {taskStats.inProgress}
+                                        {taskStats.in_progress}
                                     </p>
                                 </div>
                                 <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -262,7 +251,7 @@ const Home = () => {
                                             {t("home.multiPending")}
                                         </SelectItem>
                                         <SelectItem value="in_progress">
-                                            {t("home.inProgress")}
+                                            {t("home.in_progress")}
                                         </SelectItem>
                                         <SelectItem value="completed">
                                             {t("home.multiCompleted")}
@@ -342,6 +331,31 @@ const Home = () => {
                         <h2 className="text-xl font-semibold">
                             {t("home.tasks")} ({filteredTasks.length})
                         </h2>
+                        <div className="flex justify-center items-center gap-2 mt-4">
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    setCurrentPage((p) => Math.max(p - 1, 1))
+                                }
+                                disabled={currentPage === 1}
+                            >
+                                {t("home.previous")}
+                            </Button>
+                            <span className="text-sm">
+                                {t("home.page")} {currentPage} / {totalPages}
+                            </span>
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    setCurrentPage((p) =>
+                                        Math.min(p + 1, totalPages)
+                                    )
+                                }
+                                disabled={currentPage === totalPages}
+                            >
+                                {t("home.next")}
+                            </Button>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -411,32 +425,6 @@ const Home = () => {
                                 </CardContent>
                             </Card>
                         ))}
-                    </div>
-
-                    <div className="flex justify-center items-center gap-2 mt-4">
-                        <Button
-                            variant="outline"
-                            onClick={() =>
-                                setCurrentPage((p) => Math.max(p - 1, 1))
-                            }
-                            disabled={currentPage === 1}
-                        >
-                            {t("home.previous")}
-                        </Button>
-                        <span className="text-sm">
-                            {t("home.page")} {currentPage} / {totalPages}
-                        </span>
-                        <Button
-                            variant="outline"
-                            onClick={() =>
-                                setCurrentPage((p) =>
-                                    Math.min(p + 1, totalPages)
-                                )
-                            }
-                            disabled={currentPage === totalPages}
-                        >
-                            {t("home.next")}
-                        </Button>
                     </div>
 
                     {filteredTasks.length === 0 && (

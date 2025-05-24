@@ -20,7 +20,7 @@ i18n
                         newTask: "New Task",
                         totalTasks: "Total Tasks",
                         completed: "Completed",
-                        inProgress: "In Progress",
+                        in_progress: "In Progress",
                         pending: "Pending",
                         low: "Low",
                         medium: "Medium",
@@ -50,6 +50,22 @@ i18n
                         previous: "Previous",
                         page: "Page",
                     },
+                    addTaskModal: {
+                        modalTitle: "Add a new task",
+                        modalDescription: "Enter details about the task below.",
+                        taskTitle: "Task title",
+                        description: "Description",
+                        status: "Status",
+                        priority: "Priority",
+                        assignedUser: "Assigned User",
+                        save: "Save Task",
+                        selectUser: "Select User",
+                        titleUserError:
+                            "Both the title and the assigned user are required.",
+                        genericError:
+                            "An error occurred while saving the task.",
+                        networkError: "Network error. Please try again.",
+                    },
                 },
             },
             es: {
@@ -61,7 +77,7 @@ i18n
                         newTask: "Nueva Tarea",
                         totalTasks: "Total de Tareas",
                         completed: "Completada",
-                        inProgress: "En Progreso",
+                        in_progress: "En Progreso",
                         pending: "Pendiente",
                         multiPending: "Pendientes",
                         multiCompleted: "Completadas",
@@ -90,6 +106,22 @@ i18n
                         next: "Siguiente",
                         previous: "Anterior",
                         page: "Página",
+                    },
+                    addTaskModal: {
+                        modalTitle: "Agregar una nueva tarea",
+                        modalDescription:
+                            "Ingresa los detalles de la tarea a continuación.",
+                        taskTitle: "Título de la tarea",
+                        description: "Descripción",
+                        status: "Estatus",
+                        priority: "Prioridad",
+                        save: "Guardar Tarea",
+                        selectUser: "Seleccionar Usuario",
+                        titleUserError:
+                            "El título y el usuario asignado son obligatorios",
+                        genericError: "Ocurrió un error al guardar la tarea.",
+                        networkError:
+                            "Error de red. Por favor, inténtalo de nuevo.",
                     },
                 },
             },
