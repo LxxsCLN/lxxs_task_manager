@@ -65,6 +65,14 @@ i18n
                         genericError:
                             "An error occurred while saving the task.",
                         networkError: "Network error. Please try again.",
+                        requiredField: "Required field",
+                        requiredTitle: "Title is required",
+                        titleError: "The title must be at least 3 characters.",
+                        titleMaxError:
+                            "The title must be at most 50 characters.",
+                        userError: "The user must be selected.",
+                        descriptionMaxError:
+                            "The description must be at most 200 characters.",
                     },
                 },
             },
@@ -122,6 +130,15 @@ i18n
                         genericError: "Ocurrió un error al guardar la tarea.",
                         networkError:
                             "Error de red. Por favor, inténtalo de nuevo.",
+                        requiredField: "Campo requerido",
+                        requiredTitle: "El título es obligatorio",
+                        titleError:
+                            "El título debe tener al menos 3 caracteres.",
+                        titleMaxError:
+                            "El título debe tener como máximo 50 caracteres.",
+                        userError: "El usuario debe ser seleccionado.",
+                        descriptionMaxError:
+                            "La descripción debe tener como máximo 200 caracteres.",
                     },
                 },
             },
