@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { getUsers } from "./api/users.js";
+import Home from "./pages/Home.jsx";
 
 function App() {
     const [users, setUsers] = useState([]);
@@ -19,14 +21,11 @@ function App() {
     }, []);
 
     return (
-        <>
-            {users.map((user) => (
-                <div key={user.id}>
-                    <h2>{user.name}</h2>
-                    <p>{user.username}</p>
-                </div>
-            ))}
-        </>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} /> */}
+        </Routes>
     );
 }
 
