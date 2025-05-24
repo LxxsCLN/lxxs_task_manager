@@ -11,3 +11,17 @@ export const createTask = (task: CreateTask) =>
             "Content-Type": "application/json",
         },
     });
+
+export const updateTask = (task: CreateTask, id: string) =>
+    axios.put(`${API}/api/tasks/${id}`, JSON.stringify(task), {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+export const deleteTask = (id: string) =>
+    axios.delete(`${API}/api/tasks/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });

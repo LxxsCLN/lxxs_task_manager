@@ -127,7 +127,7 @@ export function AddTaskModal({ users }: any) {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-8"
+                        className="space-y-4"
                     >
                         <FormField
                             control={form.control}
@@ -176,10 +176,10 @@ export function AddTaskModal({ users }: any) {
                                         defaultValue={field.value}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue
                                                     placeholder={t(
-                                                        "home.assignedUser"
+                                                        "addTaskModal.selectUser"
                                                     )}
                                                 />
                                             </SelectTrigger>
@@ -210,7 +210,7 @@ export function AddTaskModal({ users }: any) {
                                         defaultValue={field.value}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -241,7 +241,7 @@ export function AddTaskModal({ users }: any) {
                                         defaultValue={field.value}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>
@@ -264,7 +264,11 @@ export function AddTaskModal({ users }: any) {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">{t("addTaskModal.save")}</Button>
+                        <div className="w-full flex justify-end">
+                            <Button type="submit">
+                                {t("addTaskModal.save")}
+                            </Button>
+                        </div>
                     </form>
                 </Form>
             </DialogContent>

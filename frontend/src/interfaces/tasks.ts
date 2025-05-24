@@ -3,10 +3,11 @@ export interface Task {
     title: string;
     description: string | null;
     user_id: number;
-    taskStatus: string;
+    status: string;
     priority: string;
-    createdAt: Date;
-    updatedAt: Date;
+    created_at: Date;
+    completed_at: Date;
+    name: string;
 }
 
 export interface CreateTask {
