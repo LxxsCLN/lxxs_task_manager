@@ -1,5 +1,8 @@
 import { Router } from "express";
 import db from "../../db.js";
+
+import { taskSchema } from "../schemas/tasks.js";
+
 const router = Router();
 
 router.get("/all", async (req, res) => {
@@ -30,13 +33,17 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+    const parsed = taskSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.message });
+    }
     const {
         title,
-        description = "",
-        status = "pending",
+        description,
+        taskStatus: status,
         user_id,
-        priority = "low",
-    } = req.body;
+        priority,
+    } = parsed.data;
 
     if (!title || !user_id) {
         return res
