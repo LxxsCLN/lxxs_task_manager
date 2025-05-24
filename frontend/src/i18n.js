@@ -73,6 +73,7 @@ i18n
                         userError: "The user must be selected.",
                         descriptionMaxError:
                             "The description must be at most 200 characters.",
+                        taskCreated: "Task created successfully!",
                     },
                 },
             },
@@ -139,6 +140,7 @@ i18n
                         userError: "El usuario debe ser seleccionado.",
                         descriptionMaxError:
                             "La descripción debe tener como máximo 200 caracteres.",
+                        taskCreated: "¡Tarea creada exitosamente!",
                     },
                 },
             },

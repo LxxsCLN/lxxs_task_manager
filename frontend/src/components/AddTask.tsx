@@ -104,6 +104,7 @@ export function AddTaskModal({ users }: any) {
             } else {
                 setOpen(false);
                 toast.success("Task has been created.");
+                toast.success(t("addTaskModal.taskCreated"));
             }
         } catch (err) {
             toast.error(t("addTaskModal.networkError"));
