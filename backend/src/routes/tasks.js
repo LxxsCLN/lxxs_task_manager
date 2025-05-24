@@ -4,7 +4,9 @@ const router = Router();
 
 router.get("/all", async (req, res) => {
     try {
-        const result = await db.query("SELECT * FROM tasks");
+        const result = await db.query(
+            "SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id"
+        );
         res.json(result.rows);
     } catch (err) {
         res.status(500).json({ error: err.message });
