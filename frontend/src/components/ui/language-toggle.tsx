@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"; // or just use a <button>
-import { Globe } from "lucide-react"; // Optional, you can use any icon
+import { Button } from "@/components/ui/button";
+import { Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export default function LanguageToggle() {

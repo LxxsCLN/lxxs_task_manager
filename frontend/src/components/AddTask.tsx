@@ -27,44 +27,45 @@ import { Textarea } from "@/components/ui/textarea";
 import { CreateTask } from "@/interfaces/tasks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosResponse } from "axios";
-import { t } from "i18next";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createTask } from "../api/tasks";
 
-const formSchema = z.object({
-    title: z
-        .string({
-            required_error: t("addTaskModal.requiredTitle"),
-        })
-        .min(3, {
-            message: t("addTaskModal.titleError"),
-        })
-        .max(50, {
-            message: t("addTaskModal.titleMaxError"),
-        }),
-    description: z
-        .string()
-        .max(200, {
-            message: t("addTaskModal.descriptionMaxError"),
-        })
-        .optional(),
-    userId: z
-        .string({
-            required_error: t("addTaskModal.userError"),
-        })
-        .min(1, {
-            message: t("addTaskModal.userError"),
-        }),
-    status: z.enum(["pending", "in_progress", "completed"]),
-    priority: z.enum(["low", "medium", "high", "urgent"]),
-});
-
 export function AddTaskModal({ users }: any) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
+
+    const formSchema = z.object({
+        title: z
+            .string({
+                required_error: t("addTaskModal.requiredTitle"),
+            })
+            .min(3, {
+                message: t("addTaskModal.titleError"),
+            })
+            .max(50, {
+                message: t("addTaskModal.titleMaxError"),
+            }),
+        description: z
+            .string()
+            .max(200, {
+                message: t("addTaskModal.descriptionMaxError"),
+            })
+            .optional(),
+        userId: z
+            .string({
+                required_error: t("addTaskModal.userError"),
+            })
+            .min(1, {
+                message: t("addTaskModal.userError"),
+            }),
+        status: z.enum(["pending", "in_progress", "completed"]),
+        priority: z.enum(["low", "medium", "high", "urgent"]),
+    });
 
     useEffect(() => {
         if (!open) {

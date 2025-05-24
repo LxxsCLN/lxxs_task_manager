@@ -1,7 +1,7 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const statusColors: any = {
     pending: "bg-gray-100 text-gray-800",
@@ -17,6 +17,7 @@ const priorityColors: any = {
 };
 
 export const TaskCard = ({ task }: { task: any }) => {
+    const { t } = useTranslation();
     return (
         <Card className="cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-md">
             <CardHeader className="pb-3">

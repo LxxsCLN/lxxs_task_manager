@@ -1,11 +1,12 @@
 import LanguageToggle from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { UserResponse } from "@/interfaces/users";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { AddTaskModal } from "./AddTask";
 
 export const Header = ({ users }: UserResponse) => {
-    console.log(" Header users: ", users);
+    const { t } = useTranslation();
+
     return (
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>

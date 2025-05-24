@@ -5,13 +5,14 @@ import { TaskFilters } from "@/components/TaskFilters";
 import { Button } from "@/components/ui/button";
 import { Task } from "@/interfaces/tasks";
 import { UserType } from "@/interfaces/users";
-import { t } from "i18next";
 import { AlertCircle, Calendar, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getAllTasks } from "../api/tasks.js";
 import { getAllUsers } from "../api/users.js";
 
 const Home = () => {
+    const { t } = useTranslation();
     const [users, setUsers] = useState<UserType[]>([]);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [searchTerm, setSearchTerm] = useState("");

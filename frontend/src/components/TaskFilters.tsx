@@ -7,8 +7,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { t } from "i18next";
 import { Filter, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const TaskFilters = ({
     searchTerm,
@@ -21,6 +21,7 @@ export const TaskFilters = ({
     setUserFilter,
     users,
 }: any) => {
+    const { t } = useTranslation();
     return (
         <Card>
             <CardHeader>
