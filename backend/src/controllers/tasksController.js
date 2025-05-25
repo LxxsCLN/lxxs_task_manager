@@ -1,5 +1,6 @@
 import db from "../../db.js";
 import { taskSchema } from "../schemas/tasks.js";
+import { getTaskById } from "../services/services.js";
 
 export const getTask = async (req, res) => {
     const { id } = req.params;
@@ -7,11 +8,8 @@ export const getTask = async (req, res) => {
         return res.status(400).json({ error: "ID is required" });
     }
     try {
-        const result = await db.query("SELECT * FROM tasks WHERE id = $1", [
-            id,
-        ]);
-
-        res.json(result.rows);
+        const task = await getTaskById(id);
+        res.json(task);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -20,7 +18,7 @@ export const getTask = async (req, res) => {
 export const getAllTasks = async (req, res) => {
     try {
         const result = await db.query(
-            "SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id"
+            "SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id ORDER by t.id DESC"
         );
         res.json(result.rows);
     } catch (err) {
@@ -33,13 +31,7 @@ export const createTask = async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.message });
     }
-    const {
-        title,
-        description,
-        taskStatus: status,
-        user_id,
-        priority,
-    } = parsed.data;
+    const { title, description, status, user_id, priority } = parsed.data;
 
     if (!title || !user_id) {
         return res
@@ -55,7 +47,8 @@ export const createTask = async (req, res) => {
 
         const id = result.rows[0].id;
 
-        res.json({ id });
+        const task = await getTaskById(id);
+        res.json(task);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -79,7 +72,10 @@ export const updateTask = async (req, res) => {
             [title, description, status, user_id, priority, id]
         );
 
-        res.json(result.rows[0]);
+        const newId = result.rows[0].id;
+
+        const task = await getTaskById(newId);
+        res.json(task);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
