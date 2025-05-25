@@ -15,8 +15,11 @@ i18n
             en: {
                 translation: {
                     landing: {
-                        title: "Task Manager",
-                        description: "Manage and track your team's tasks",
+                        title: "NXT Task Manager",
+                        description:
+                            "Manage & Track Your Team's Tasks Efficiently",
+                        description2:
+                            "Stay organized and keep your team on track with real-time updates, task assignments, and progress monitoring.",
                         getStarted: "Get Started",
                         register: "Sign Up",
                         welcome: "Welcome to Task Manager",
@@ -41,6 +44,7 @@ i18n
                         passwords_doNotMatch: "Passwords do not match",
                         name: "Name",
                         confirmPassword: "Confirm Password",
+                        copyright: "NXT Task Manager. All rights reserved.",
                     },
                     home: {
                         title: "Task Manager",
@@ -165,9 +169,11 @@ i18n
             es: {
                 translation: {
                     landing: {
-                        title: "Gestor de Tareas",
+                        title: "Gestor de Tareas NXT",
                         description:
-                            "Gestiona y realiza un seguimiento de las tareas de tu equipo",
+                            "Gestiona las Tareas de tu Equipo de Manera Eficiente",
+                        description2:
+                            "Mantente organizado y mantén a tu equipo en el camino correcto con actualizaciones en tiempo real, asignaciones de tareas y monitoreo del progreso.",
                         getStarted: "Comenzar",
                         login: "Iniciar Sesión",
                         register: "Registrarse",
@@ -198,6 +204,8 @@ i18n
                         passwords_doNotMatch: "Las contraseñas no coinciden",
                         name: "Nombre",
                         confirmPassword: "Confirmar Contraseña",
+                        copyright:
+                            "Gestor de Tareas NXT. Todos los derechos reservados.",
                     },
                     home: {
                         title: "Gestor de Tareas",

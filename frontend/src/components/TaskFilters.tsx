@@ -11,6 +11,7 @@ import {
 import { useAppData } from "@/contexts/AppDataContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLoading } from "@/contexts/LoadingContext";
+import { useDebounce } from "@/hooks/useDebounce";
 import { UserType } from "@/interfaces/users";
 import { Filter, Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -27,12 +28,14 @@ export const TaskFilters = () => {
     const [userFilter, setUserFilter] = useState<string>("all");
     const { showLoader, hideLoader } = useLoading();
 
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
     useEffect(() => {
         const fetchTasks = async () => {
             try {
                 showLoader();
                 const response = await getAllTasks(
-                    searchTerm,
+                    debouncedSearchTerm,
                     statusFilter,
                     priorityFilter,
                     userFilter
@@ -46,7 +49,7 @@ export const TaskFilters = () => {
         };
 
         fetchTasks();
-    }, [searchTerm, statusFilter, priorityFilter, userFilter]);
+    }, [debouncedSearchTerm, statusFilter, priorityFilter, userFilter]);
 
     return (
         <Card>

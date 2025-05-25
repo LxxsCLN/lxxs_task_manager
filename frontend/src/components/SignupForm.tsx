@@ -136,7 +136,7 @@ export const SignupForm = ({ onSubmit }: any) => {
                         )}
                     />
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex justify-end">
                     <Button type="submit">{t(`landing.submit_signup`)}</Button>
                 </CardFooter>
             </form>

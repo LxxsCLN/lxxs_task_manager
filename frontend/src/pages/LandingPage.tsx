@@ -12,7 +12,6 @@ import LanguageToggle from "@/components/ui/language-toggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from "@/contexts/AuthContext";
-import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -70,8 +69,12 @@ export default function LandingPage() {
         <div className="min-h-screen bg-gray-50 dark:bg-black flex flex-col items-center justify-center px-4">
             <header className="w-full max-w-4xl mx-auto flex items-center justify-between py-6">
                 <div className="flex items-center gap-2">
-                    <Globe className="text-gray-500" />
-                    <h1 className="text-2xl font-bold">Task Manager</h1>
+                    <img
+                        height={30}
+                        width={30}
+                        src="https://gruponxt.com/wp-content/uploads/2025/01/nxt-icon-working-with-energy-3-1024x1024-1-150x150.png"
+                    />
+                    <h1 className="text-2xl font-bold">{t("landing.title")}</h1>
                 </div>
                 <div className="flex gap-4">
                     <LanguageToggle />
@@ -81,11 +84,10 @@ export default function LandingPage() {
 
             <main className="flex-1 flex flex-col items-center justify-center gap-6 text-center">
                 <h2 className="text-4xl font-extrabold tracking-tight">
-                    Manage & Track Your Team's Tasks Efficiently
+                    {t("landing.description")}
                 </h2>
                 <p className="text-lg max-w-2xl text-gray-400">
-                    Stay organized and keep your team on track with real-time
-                    updates, task assignments, and progress monitoring.
+                    {t("landing.description2")}
                 </p>
 
                 <Tabs defaultValue="login" className="w-[400px]">
@@ -124,7 +126,7 @@ export default function LandingPage() {
             </main>
 
             <footer className="text-sm text-gray-500 py-4">
-                © {new Date().getFullYear()} Task Manager. All rights reserved.
+                © {new Date().getFullYear()} {t("landing.copyright")}
             </footer>
         </div>
     );

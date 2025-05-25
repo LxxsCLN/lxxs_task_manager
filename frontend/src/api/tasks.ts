@@ -12,7 +12,7 @@ export const getAllTasks = (
     userFilter: string
 ) =>
     axios.get(
-        `${API}/api/tasks/all?search${searchTerm}&status=${statusFilter}&priority=${priorityFilter}&user_id=${userFilter}`
+        `${API}/api/tasks/all?search=${searchTerm}&status=${statusFilter}&priority=${priorityFilter}&user_id=${userFilter}`
     );
 
 export const createTask = (task: CreateTask) =>
