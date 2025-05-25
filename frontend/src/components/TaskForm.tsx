@@ -231,7 +231,7 @@ export const TaskForm = ({
                         <Button type="submit">{t("addTaskModal.save")}</Button>
                     </div>
                 ) : (
-                    <div className="w-full flex justify-between">
+                    <div className="w-full flex justify-end gap-2">
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <Button type="button" variant="destructive">

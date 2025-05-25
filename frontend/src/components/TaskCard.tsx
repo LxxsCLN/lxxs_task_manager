@@ -1,17 +1,21 @@
-import { deleteTask, updateTask } from "@/api/tasks";
+import { completeTask, deleteTask, updateTask } from "@/api/tasks";
+import { ConfirmTaskForm } from "@/components/ConfirmTaskForm";
 import { TaskForm } from "@/components/TaskForm";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAppData } from "@/contexts/AppDataContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import { CreateTask, Task } from "@/interfaces/tasks";
 import { useState } from "react";
@@ -36,6 +40,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
     const [open, setOpen] = useState(false);
     const { setTasks } = useAppData();
     const { showLoader, hideLoader } = useLoading();
+    const { user } = useAuth();
 
     const defaultValues = {
         title: task.title,
@@ -46,11 +51,11 @@ export const TaskCard = ({ task }: { task: Task }) => {
     };
 
     const handleDelete = async () => {
+        setOpen(false);
         showLoader();
         try {
             await deleteTask(task.id);
             setTasks((prev) => prev.filter((t) => t.id !== task.id));
-            setOpen(false);
             toast.success(t("editTaskModal.taskDeleted"));
         } catch (error) {
             toast.error(t("editTaskModal.taskDeleteError"));
@@ -60,6 +65,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
     };
 
     const handleEdit = async (values: CreateTask) => {
+        setOpen(false);
         showLoader();
 
         try {
@@ -73,7 +79,32 @@ export const TaskCard = ({ task }: { task: Task }) => {
                 }
                 return prev;
             });
-            setOpen(false);
+            toast.success(t("editTaskModal.taskUpdated"));
+        } catch (error) {
+            toast.error(t("editTaskModal.taskUpdateError"));
+        } finally {
+            hideLoader();
+        }
+    };
+
+    const handleConfirm = async (values: any) => {
+        setOpen(false);
+        showLoader();
+
+        try {
+            const { data: updatedTask } = await completeTask(
+                task.id,
+                values.notes
+            );
+            setTasks((prev) => {
+                const index = prev.findIndex((t) => t.id === task.id);
+                if (index !== -1) {
+                    const newTasks: Task[] = [...prev];
+                    newTasks[index] = updatedTask;
+                    return newTasks;
+                }
+                return prev;
+            });
             toast.success(t("editTaskModal.taskUpdated"));
         } catch (error) {
             toast.error(t("editTaskModal.taskUpdateError"));
@@ -139,20 +170,56 @@ export const TaskCard = ({ task }: { task: Task }) => {
                     </CardContent>
                 </Card>
             </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>{t("editTaskModal.modalTitle")}</DialogTitle>
-                    <DialogDescription>
-                        {t("editTaskModal.modalDescription")}
-                    </DialogDescription>
-                </DialogHeader>
-                <TaskForm
-                    defaultValues={defaultValues}
-                    onSubmit={handleEdit}
-                    handleDelete={handleDelete}
-                    mode="edit"
-                />
-            </DialogContent>
+            {task.status === "completed" ? (
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            {t("confirmTaskModal.taskCompleted")}
+                        </DialogTitle>
+                        <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col gap-1">
+                        <div>{t("confirmTaskModal.notes")}</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-300 border p-2 shadow-md rounded-md">
+                            {task.notes || t("confirmTaskModal.noNotes")}
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button onClick={() => setOpen(false)}>
+                            {t("confirmTaskModal.close")}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            ) : user?.role === "admin" ? (
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            {t("editTaskModal.modalTitle")}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {t("editTaskModal.modalDescription")}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <TaskForm
+                        defaultValues={defaultValues}
+                        onSubmit={handleEdit}
+                        handleDelete={handleDelete}
+                        mode="edit"
+                    />
+                </DialogContent>
+            ) : (
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            {t("confirmTaskModal.modalTitle")}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {t("confirmTaskModal.modalDescription")}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <ConfirmTaskForm onSubmit={handleConfirm} />
+                </DialogContent>
+            )}
         </Dialog>
     );
 };

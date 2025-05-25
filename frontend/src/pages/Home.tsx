@@ -14,7 +14,7 @@ const Home = () => {
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
     const [userFilter, setUserFilter] = useState<string>("all");
-    const { tasks, loading, users } = useAppData();
+    const { tasks, loading } = useAppData();
 
     const [currentPage, setCurrentPage] = useState(1);
     const tasksPerPage = 6;
@@ -103,17 +103,7 @@ const Home = () => {
                 </div>
 
                 {/* Filters */}
-                <TaskFilters
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    statusFilter={statusFilter}
-                    setStatusFilter={setStatusFilter}
-                    priorityFilter={priorityFilter}
-                    setPriorityFilter={setPriorityFilter}
-                    userFilter={userFilter}
-                    setUserFilter={setUserFilter}
-                    users={users}
-                />
+                <TaskFilters />
 
                 {/* Tasks Grid */}
                 <div className="space-y-4">

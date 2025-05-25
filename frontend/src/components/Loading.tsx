@@ -16,8 +16,7 @@ export const Loading = () => {
         <AlertDialog open={isLoading}>
             <AlertDialogContent asChild>
                 <AlertDialogHeader>
-                    <AlertDialogTitle></AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogTitle>
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                             <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-2xl flex flex-col items-center space-y-4 w-72">
                                 <div className="relative">
@@ -29,7 +28,8 @@ export const Loading = () => {
                                 </div>
                             </div>
                         </div>
-                    </AlertDialogDescription>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription></AlertDialogDescription>
                 </AlertDialogHeader>
             </AlertDialogContent>
         </AlertDialog>

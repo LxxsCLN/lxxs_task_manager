@@ -1,5 +1,5 @@
 export interface Task {
-    id: string;
+    id: number;
     title: string;
     description: string | null;
     user_id: number;
@@ -8,6 +8,7 @@ export interface Task {
     created_at: Date;
     completed_at: Date;
     name: string;
+    notes: string | null;
 }
 
 export interface CreateTask {
@@ -16,4 +17,11 @@ export interface CreateTask {
     user_id: string;
     status: string;
     priority: string;
+}
+
+export interface TaskFilters {
+    searchTerm: string;
+    statusFilter: string;
+    priorityFilter: string;
+    userFilter: string;
 }

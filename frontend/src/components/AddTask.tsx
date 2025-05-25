@@ -33,6 +33,7 @@ export function AddTaskModal() {
     };
 
     async function onSubmit(values: CreateTask) {
+        setOpen(false);
         showLoader();
         try {
             const res: AxiosResponse = await createTask(values);
@@ -42,7 +43,6 @@ export function AddTaskModal() {
             if (res.statusText !== "OK") {
                 toast.error(t("addTaskModal.genericError"));
             } else {
-                setOpen(false);
                 toast.success(t("addTaskModal.taskCreated"));
                 setTasks((prev) => [data, ...prev]);
             }

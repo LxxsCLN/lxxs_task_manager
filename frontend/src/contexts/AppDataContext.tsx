@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { getAllTasks } from "../api/tasks.js";
 import { getAllUsers } from "../api/users.js";
+import { useAuth } from "./AuthContext";
 
 type AppDataContextType = {
     tasks: Task[];
@@ -30,6 +31,7 @@ export const AppDataProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
+    const { user } = useAuth();
     const { t } = useTranslation();
     const [tasks, setTasks] = useState<Task[]>([]);
     const [users, setUsers] = useState<UserType[]>([]);
@@ -38,12 +40,23 @@ export const AppDataProvider = ({
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersResponse, tasksResponse] = await Promise.all([
-                    getAllUsers(),
-                    getAllTasks(),
-                ]);
-                setTasks(tasksResponse.data);
-                setUsers(usersResponse.data);
+                if (user && user.role === "admin") {
+                    const [usersResponse, tasksResponse] = await Promise.all([
+                        getAllUsers(),
+                        getAllTasks("", "all", "all", "all"),
+                    ]);
+                    setTasks(tasksResponse.data);
+                    setUsers(usersResponse.data);
+                } else {
+                    const tasksResponse = await getAllTasks(
+                        "",
+                        "all",
+                        "all",
+                        "all"
+                    );
+                    setTasks(tasksResponse.data);
+                    setUsers([user || {}] as UserType[]);
+                }
                 setLoading(false);
             } catch (error: AxiosError | any) {
                 if (error.status === 401) {

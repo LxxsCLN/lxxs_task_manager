@@ -1,3 +1,4 @@
+import { getAllTasks } from "@/api/tasks.js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -7,34 +8,46 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useAppData } from "@/contexts/AppDataContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLoading } from "@/contexts/LoadingContext";
 import { UserType } from "@/interfaces/users";
 import { Filter, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
-interface TaskFiltersProps {
-    searchTerm: string;
-    setSearchTerm: (term: string) => void;
-    statusFilter: string;
-    setStatusFilter: (status: string) => void;
-    priorityFilter: string;
-    setPriorityFilter: (priority: string) => void;
-    userFilter: string;
-    setUserFilter: (userId: string) => void;
-    users: UserType[];
-}
-
-export const TaskFilters = ({
-    searchTerm,
-    setSearchTerm,
-    statusFilter,
-    setStatusFilter,
-    priorityFilter,
-    setPriorityFilter,
-    userFilter,
-    setUserFilter,
-    users,
-}: TaskFiltersProps) => {
+export const TaskFilters = () => {
     const { t } = useTranslation();
+    const { user } = useAuth();
+    const { users, setTasks } = useAppData();
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [statusFilter, setStatusFilter] = useState<string>("all");
+    const [priorityFilter, setPriorityFilter] = useState<string>("all");
+    const [userFilter, setUserFilter] = useState<string>("all");
+    const { showLoader, hideLoader } = useLoading();
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                showLoader();
+                const response = await getAllTasks(
+                    searchTerm,
+                    statusFilter,
+                    priorityFilter,
+                    userFilter
+                );
+                setTasks(response.data);
+            } catch (error) {
+                toast.error("home.error");
+            } finally {
+                hideLoader();
+            }
+        };
+
+        fetchTasks();
+    }, [searchTerm, statusFilter, priorityFilter, userFilter]);
+
     return (
         <Card>
             <CardHeader>
@@ -44,8 +57,20 @@ export const TaskFilters = ({
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="flex flex-col space-y-2">
+                <div
+                    className={`grid grid-cols-1 sm:grid-cols-2 ${
+                        user?.role === "admin"
+                            ? "lg:grid-cols-4"
+                            : "lg:grid-cols-3"
+                    } gap-4`}
+                >
+                    <div
+                        className={`flex flex-col space-y-2 ${
+                            user?.role !== "admin"
+                                ? "sm:col-span-2 lg:col-span-1"
+                                : ""
+                        }`}
+                    >
                         <label className="text-sm font-medium">
                             {t("home.search")}
                         </label>
@@ -119,32 +144,34 @@ export const TaskFilters = ({
                         </Select>
                     </div>
 
-                    <div className="flex flex-col space-y-2">
-                        <label className="text-sm font-medium">
-                            {t("home.assignedUser")}
-                        </label>
-                        <Select
-                            value={userFilter}
-                            onValueChange={setUserFilter}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder={t("home.all")} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">
-                                    {t("home.all")}
-                                </SelectItem>
-                                {users.map((user: UserType) => (
-                                    <SelectItem
-                                        key={user.id}
-                                        value={`${user.id}`}
-                                    >
-                                        {user.name}
+                    {user?.role === "admin" && (
+                        <div className="flex flex-col space-y-2">
+                            <label className="text-sm font-medium">
+                                {t("home.assignedUser")}
+                            </label>
+                            <Select
+                                value={userFilter}
+                                onValueChange={setUserFilter}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder={t("home.all")} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">
+                                        {t("home.all")}
                                     </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                                    {users.map((user: UserType) => (
+                                        <SelectItem
+                                            key={user.id}
+                                            value={`${user.id}`}
+                                        >
+                                            {user.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
                 </div>
             </CardContent>
         </Card>

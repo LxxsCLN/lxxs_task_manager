@@ -145,6 +145,21 @@ i18n
                         taskDeleteError:
                             "An error occurred while deleting the task.",
                     },
+                    confirmTaskModal: {
+                        modalTitle: "Confirm task completed",
+                        modalDescription:
+                            "Confirm that the task has been completed.",
+                        confirm: "Confirm",
+                        cancel: "Cancel",
+                        confirmationSuccess: "Task confirmed successfully!",
+                        confirmationError:
+                            "An error occurred while confirming the task.",
+                        notes: "Notes",
+                        enterNotes: "Enter your notes here...",
+                        noNotes: "- No notes -",
+                        close: "Close",
+                        taskCompleted: "Task Completed",
+                    },
                 },
             },
             es: {
@@ -290,6 +305,21 @@ i18n
                             "Ocurrió un error al actualizar la tarea.",
                         taskDeleteError:
                             "Ocurrió un error al eliminar la tarea.",
+                    },
+                    confirmTaskModal: {
+                        modalTitle: "Confirmar tarea completada",
+                        modalDescription:
+                            "Confirma que la tarea ha sido completada.",
+                        confirm: "Confirmar",
+                        cancel: "Cancelar",
+                        confirmationSuccess: "¡Tarea confirmada exitosamente!",
+                        confirmationError:
+                            "Ocurrió un error al confirmar la tarea.",
+                        notes: "Notas",
+                        enterNotes: "Ingresa tus notas aquí...",
+                        noNotes: "- Sin notas -",
+                        close: "Cerrar",
+                        taskCompleted: "Tarea Completada",
                     },
                 },
             },
