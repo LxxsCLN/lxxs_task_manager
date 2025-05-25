@@ -49,6 +49,7 @@ i18n
                         next: "Next",
                         previous: "Previous",
                         page: "Page",
+                        loading: "Loading...",
                     },
                     addTaskModal: {
                         modalTitle: "Add a new task",
@@ -105,6 +106,8 @@ i18n
                             "This action cannot be undone. This will permanently delete the task.",
                         deleteConfirmationCancel: "Cancel",
                         deleteConfirmationAction: "Delete",
+                        taskUpdated: "Task updated successfully!",
+                        taskDeleted: "Task deleted successfully!",
                     },
                 },
             },
@@ -146,6 +149,7 @@ i18n
                         next: "Siguiente",
                         previous: "Anterior",
                         page: "Página",
+                        loading: "Cargando...",
                     },
                     addTaskModal: {
                         modalTitle: "Agregar una nueva tarea",
@@ -205,6 +209,8 @@ i18n
                             "Esta acción no se puede deshacer. Esto eliminará permanentemente la tarea.",
                         deleteConfirmationCancel: "Cancelar",
                         deleteConfirmationAction: "Eliminar",
+                        taskUpdated: "¡Tarea actualizada exitosamente!",
+                        taskDeleted: "¡Tarea eliminada exitosamente!",
                     },
                 },
             },

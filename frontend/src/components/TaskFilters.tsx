@@ -7,8 +7,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { UserType } from "@/interfaces/users";
 import { Filter, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
+interface TaskFiltersProps {
+    searchTerm: string;
+    setSearchTerm: (term: string) => void;
+    statusFilter: string;
+    setStatusFilter: (status: string) => void;
+    priorityFilter: string;
+    setPriorityFilter: (priority: string) => void;
+    userFilter: string;
+    setUserFilter: (userId: string) => void;
+    users: UserType[];
+}
 
 export const TaskFilters = ({
     searchTerm,
@@ -20,7 +33,7 @@ export const TaskFilters = ({
     userFilter,
     setUserFilter,
     users,
-}: any) => {
+}: TaskFiltersProps) => {
     const { t } = useTranslation();
     return (
         <Card>
@@ -121,8 +134,11 @@ export const TaskFilters = ({
                                 <SelectItem value="all">
                                     {t("home.all")}
                                 </SelectItem>
-                                {users.map((user: any) => (
-                                    <SelectItem key={user.id} value={user.id}>
+                                {users.map((user: UserType) => (
+                                    <SelectItem
+                                        key={user.id}
+                                        value={`${user.id}`}
+                                    >
                                         {user.name}
                                     </SelectItem>
                                 ))}

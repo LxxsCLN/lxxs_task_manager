@@ -34,12 +34,25 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
+interface TaskFormProps {
+    defaultValues: {
+        title: string;
+        description: string;
+        user_id: string;
+        status: any;
+        priority: any;
+    };
+    onSubmit: (values: any) => Promise<void>;
+    mode?: "add" | "edit";
+    handleDelete?: () => Promise<void>;
+}
+
 export const TaskForm = ({
     defaultValues,
     onSubmit,
     mode = "add",
     handleDelete,
-}: any) => {
+}: TaskFormProps) => {
     const { t } = useTranslation();
     const { users } = useAppData();
     const formSchema = z.object({

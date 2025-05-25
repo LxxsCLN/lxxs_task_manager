@@ -12,28 +12,30 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAppData } from "@/contexts/AppDataContext";
-import { CreateTask } from "@/interfaces/tasks";
+import { useLoading } from "@/contexts/LoadingContext";
+import { CreateTask, Task } from "@/interfaces/tasks";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-const statusColors: any = {
+const statusColors: { [key: string]: string } = {
     pending: "bg-gray-100 text-gray-800",
     in_progress: "bg-blue-100 text-blue-800",
     completed: "bg-green-100 text-green-800",
 };
 
-const priorityColors: any = {
+const priorityColors: { [key: string]: string } = {
     low: "bg-gray-100 text-gray-600",
     medium: "bg-blue-100 text-blue-600",
     high: "bg-orange-100 text-orange-600",
     urgent: "bg-red-100 text-red-600",
 };
 
-export const TaskCard = ({ task }: any) => {
+export const TaskCard = ({ task }: { task: Task }) => {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const { setTasks } = useAppData();
+    const { show, hide } = useLoading();
 
     const defaultValues = {
         title: task.title,
@@ -47,29 +49,31 @@ export const TaskCard = ({ task }: any) => {
         await deleteTask(task.id);
         setTasks((prev) => prev.filter((t) => t.id !== task.id));
         setOpen(false);
-        toast.success("Task deleted");
+        toast.success(t("editTaskModal.taskDeleted"));
     };
 
     const handleEdit = async (values: CreateTask) => {
+        show();
         const { data: updatedTask } = await updateTask(task.id, values);
         setTasks((prev) => {
             const index = prev.findIndex((t) => t.id === task.id);
             if (index !== -1) {
-                const newTasks: any = [...prev];
+                const newTasks: Task[] = [...prev];
                 newTasks[index] = updatedTask;
                 return newTasks;
             }
             return prev;
         });
         setOpen(false);
-        toast.success("Task updated");
+        hide();
+        toast.success(t("editTaskModal.taskUpdated"));
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Card className="cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-102 hover:shadow-md">
-                    <CardHeader className="pb-3">
+                    <CardHeader className="pb-3 h-[74px]">
                         <div className="flex justify-between items-start">
                             <CardTitle className="text-lg line-clamp-2">
                                 {task.title}
@@ -134,7 +138,6 @@ export const TaskCard = ({ task }: any) => {
                     onSubmit={handleEdit}
                     handleDelete={handleDelete}
                     mode="edit"
-                    open={open}
                 />
             </DialogContent>
         </Dialog>

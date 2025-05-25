@@ -1,6 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-export const StatsCard = ({ label, value, icon, bgColor }: any) => {
+interface StatsCardProps {
+    label: string;
+    value: string | number;
+    icon: React.ReactNode;
+    bgColor: string;
+}
+
+export const StatsCard = ({ label, value, icon, bgColor }: StatsCardProps) => {
     return (
         <Card>
             <CardContent className="p-4">

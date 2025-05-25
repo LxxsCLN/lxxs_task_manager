@@ -13,7 +13,7 @@ const Home = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
-    const [userFilter, setUserFilter] = useState<string | number>("all");
+    const [userFilter, setUserFilter] = useState<string>("all");
     const { tasks, setTasks, users, setUsers } = useAppData();
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +32,7 @@ const Home = () => {
             const matchesPriority =
                 priorityFilter === "all" || task.priority === priorityFilter;
             const matchesUser =
-                userFilter === "all" || task.user_id == userFilter;
+                userFilter === "all" || `${task.user_id}` === userFilter;
 
             return (
                 matchesSearch && matchesStatus && matchesPriority && matchesUser
@@ -150,7 +150,7 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {paginatedTasks.map((task) => (
-                            <TaskCard users={users} key={task.id} task={task} />
+                            <TaskCard key={task.id} task={task} />
                         ))}
                     </div>
 

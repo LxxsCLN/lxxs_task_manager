@@ -66,7 +66,6 @@ export function AddTaskModal() {
                 <TaskForm
                     defaultValues={defaultValues}
                     onSubmit={onSubmit}
-                    open={open}
                     mode="add"
                 />
             </DialogContent>
