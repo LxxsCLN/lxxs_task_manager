@@ -58,7 +58,7 @@ Aplicación web completa para la gestión de tareas entre usuarios, con autentic
 -   Tarea `completed`: muestra notas del usuario asignado
 -   Tarea en otro estado:
     -   `user`: formulario para cambiar estado y agregar nota
-    -   `admin`: formulario completo de edición (título, descripción, usuario, prioridad, estado)
+    -   `admin`: formulario completo de edición (título, descripción, usuario, prioridad, estado), exluyendo notas.
 
 ---
 
@@ -138,6 +138,9 @@ La aplicación está desplegada en Render.com. Puedes seguir estos pasos para de
 | GET    | /api/users         | Listar usuarios             |
 
 -   Puedes importar la colección de Postman desde /server/docs/postman_collection.json.
+-   Agregar Header Authorization = "Bearer <token>".
+-   El token lo puedes obtener iniciando sesión con el endpoint '/api/auth/login'
+-   Algunos endpoints protegidos requieren un token de un usuario con rol de admin
 
 ## 🧑‍💻 Tecnologías Usadas
 
