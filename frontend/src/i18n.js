@@ -75,6 +75,37 @@ i18n
                             "The description must be at most 200 characters.",
                         taskCreated: "Task created successfully!",
                     },
+                    editTaskModal: {
+                        modalTitle: "Edit task",
+                        modalDescription: "Edit the details of the task below.",
+                        taskTitle: "Task title",
+                        description: "Description",
+                        status: "Status",
+                        priority: "Priority",
+                        assignedUser: "Assigned User",
+                        save: "Save Changes",
+                        selectUser: "Select User",
+                        titleUserError:
+                            "Both the title and the assigned user are required.",
+                        genericError:
+                            "An error occurred while saving the task.",
+                        networkError: "Network error. Please try again.",
+                        requiredField: "Required field",
+                        requiredTitle: "Title is required",
+                        titleError: "The title must be at least 3 characters.",
+                        titleMaxError:
+                            "The title must be at most 50 characters.",
+                        userError: "The user must be selected.",
+                        descriptionMaxError:
+                            "The description must be at most 200 characters.",
+                        delete: "Delete Task",
+                        deleteConfirmation:
+                            "Are you sure you want to delete this task?",
+                        deleteConfirmationDescription:
+                            "This action cannot be undone. This will permanently delete the task.",
+                        deleteConfirmationCancel: "Cancel",
+                        deleteConfirmationAction: "Delete",
+                    },
                 },
             },
             es: {
@@ -141,6 +172,39 @@ i18n
                         descriptionMaxError:
                             "La descripción debe tener como máximo 200 caracteres.",
                         taskCreated: "¡Tarea creada exitosamente!",
+                    },
+                    editTaskModal: {
+                        modalTitle: "Editar tarea",
+                        modalDescription:
+                            "Edita los detalles de la tarea a continuación.",
+                        taskTitle: "Título de la tarea",
+                        description: "Descripción",
+                        status: "Estatus",
+                        priority: "Prioridad",
+                        assignedUser: "Usuario Asignado",
+                        save: "Guardar Cambios",
+                        selectUser: "Seleccionar Usuario",
+                        titleUserError:
+                            "El título y el usuario asignado son obligatorios",
+                        genericError: "Ocurrió un error al guardar la tarea.",
+                        networkError:
+                            "Error de red. Por favor, inténtalo de nuevo.",
+                        requiredField: "Campo requerido",
+                        requiredTitle: "El título es obligatorio",
+                        titleError:
+                            "El título debe tener al menos 3 caracteres.",
+                        titleMaxError:
+                            "El título debe tener como máximo 50 caracteres.",
+                        userError: "El usuario debe ser seleccionado.",
+                        descriptionMaxError:
+                            "La descripción debe tener como máximo 200 caracteres.",
+                        delete: "Eliminar Tarea",
+                        deleteConfirmation:
+                            "¿Estás seguro de que deseas eliminar esta tarea?",
+                        deleteConfirmationDescription:
+                            "Esta acción no se puede deshacer. Esto eliminará permanentemente la tarea.",
+                        deleteConfirmationCancel: "Cancelar",
+                        deleteConfirmationAction: "Eliminar",
                     },
                 },
             },

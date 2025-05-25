@@ -12,8 +12,8 @@ export interface Task {
 
 export interface CreateTask {
     title: string;
-    description: string | undefined;
+    description?: string | undefined;
     user_id: string;
-    taskStatus: string;
+    status: string;
     priority: string;
 }

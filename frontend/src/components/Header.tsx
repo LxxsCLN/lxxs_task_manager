@@ -1,10 +1,9 @@
 import LanguageToggle from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { UserResponse } from "@/interfaces/users";
 import { useTranslation } from "react-i18next";
 import { AddTaskModal } from "./AddTask";
 
-export const Header = ({ users }: UserResponse) => {
+export const Header = () => {
     const { t } = useTranslation();
 
     return (
@@ -18,7 +17,7 @@ export const Header = ({ users }: UserResponse) => {
                 </p>
             </div>
             <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
-                <AddTaskModal users={users} />
+                <AddTaskModal />
                 <div className="flex gap-4">
                     <LanguageToggle />
                     <ThemeToggle />

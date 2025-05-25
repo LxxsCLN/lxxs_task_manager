@@ -3,6 +3,8 @@ import axios from "axios";
 
 const API = import.meta.env.VITE_APP_SERVER_URL;
 
+export const getTaskById = (id: string) => axios.get(`${API}/api/tasks/${id}`);
+
 export const getAllTasks = () => axios.get(`${API}/api/tasks/all`);
 
 export const createTask = (task: CreateTask) =>
@@ -12,7 +14,7 @@ export const createTask = (task: CreateTask) =>
         },
     });
 
-export const updateTask = (task: CreateTask, id: string) =>
+export const updateTask = (id: string, task: CreateTask) =>
     axios.put(`${API}/api/tasks/${id}`, JSON.stringify(task), {
         headers: {
             "Content-Type": "application/json",

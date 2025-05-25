@@ -3,42 +3,21 @@ import { StatsCard } from "@/components/StatsCard";
 import { TaskCard } from "@/components/TaskCard";
 import { TaskFilters } from "@/components/TaskFilters";
 import { Button } from "@/components/ui/button";
-import { Task } from "@/interfaces/tasks";
-import { UserType } from "@/interfaces/users";
+import { useAppData } from "@/contexts/AppDataContext";
 import { AlertCircle, Calendar, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getAllTasks } from "../api/tasks.js";
-import { getAllUsers } from "../api/users.js";
 
 const Home = () => {
     const { t } = useTranslation();
-    const [users, setUsers] = useState<UserType[]>([]);
-    const [tasks, setTasks] = useState<Task[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
     const [userFilter, setUserFilter] = useState<string | number>("all");
+    const { tasks, setTasks, users, setUsers } = useAppData();
 
     const [currentPage, setCurrentPage] = useState(1);
     const tasksPerPage = 6;
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [usersResponse, tasksResponse] = await Promise.all([
-                    getAllUsers(),
-                    getAllTasks(),
-                ]);
-                setTasks(tasksResponse.data);
-                setUsers(usersResponse.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const filteredTasks = useMemo(() => {
         return tasks.filter((task) => {
@@ -90,7 +69,7 @@ const Home = () => {
         <div className="min-h-screen bg-gray-50 p-4 md:p-6 dark:bg-black">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
-                <Header users={users} />
+                <Header />
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -171,7 +150,7 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {paginatedTasks.map((task) => (
-                            <TaskCard key={task.id} task={task} />
+                            <TaskCard users={users} key={task.id} task={task} />
                         ))}
                     </div>
 
