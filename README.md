@@ -68,7 +68,7 @@ Aplicación web completa para la gestión de tareas entre usuarios, con autentic
 
 -   Node.js v18+
 -   PostgreSQL
--   (Opcional) Docker
+-   (Opcional) Docker y Docker Compose
 
 ### ⚙️ Configuración
 
@@ -107,6 +107,22 @@ cd frontend
 npm install
 npm run dev
 ```
+
+-   El frontend se sirve en el puerto 5173.
+
+-   El backend corre en Node.js en el puerto 5000.
+
+#### 4. (Opcional) Ejecuta en un contenedor con Docker:
+
+```
+sudo docker-compose up --build
+```
+
+-   El frontend se sirve con Nginx en el puerto 3000.
+
+-   El backend corre en Node.js en el puerto 5000.
+
+-   Si necesitas parar los contenedores usa `docker-compose down`.
 
 ## 🗃️ Base de Datos
 
