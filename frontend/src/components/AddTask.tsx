@@ -42,13 +42,8 @@ export function AddTaskModal() {
             });
 
             const data = await res.data;
-
-            if (res.statusText !== "OK") {
-                toast.error(t("addTaskModal.genericError"));
-            } else {
-                toast.success(t("addTaskModal.taskCreated"));
-                setTasks((prev) => [data, ...prev]);
-            }
+            toast.success(t("addTaskModal.taskCreated"));
+            setTasks((prev) => [data, ...prev]);
         } catch (err) {
             toast.error(t("addTaskModal.networkError"));
         } finally {
