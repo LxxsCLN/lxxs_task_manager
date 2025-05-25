@@ -1,10 +1,15 @@
 import bcrypt from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 import db from "../../db.js";
+import { loginSchema, signupSchema } from "../schemas/auth.js";
 const { sign } = jsonwebtoken;
 
 export const register = async (req, res) => {
-    const { name, username, password, role } = req.body;
+    const parsed = signupSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.message });
+    }
+    const { name, username, password, role } = parsed.data;
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -35,7 +40,11 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    const { username, password } = req.body;
+    const parsed = loginSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.message });
+    }
+    const { username, password } = parsed.data;
 
     try {
         const result = await db.query(

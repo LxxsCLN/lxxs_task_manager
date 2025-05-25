@@ -1,25 +1,74 @@
 import db from "../../db.js";
-import { taskSchema } from "../schemas/tasks.js";
+import { completeTaskSchema, taskSchema } from "../schemas/tasks.js";
 import { getTaskById } from "../services/services.js";
 
 export const getTask = async (req, res) => {
     const { id } = req.params;
+    const { id: user_id, role } = req.user;
     if (!id) {
         return res.status(400).json({ error: "ID is required" });
     }
     try {
-        const task = await getTaskById(id);
-        res.json(task);
+        if (role === "admin") {
+            const task = await getTaskById(id);
+            res.json(task);
+        } else {
+            const result = await db.query(
+                "SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id WHERE t.id = $1 AND t.user_id = $2",
+                [id, user_id]
+            );
+            res.json(result.rows[0]);
+        }
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
 
 export const getAllTasks = async (req, res) => {
-    try {
-        const result = await db.query(
-            "SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id ORDER by t.id DESC"
+    const { id, role } = req.user;
+    const { search, status, priority, user_id } = req.query;
+
+    let sqlQuery = `SELECT t.*, u.name FROM tasks t INNER JOIN users u ON t.user_id = u.id`;
+    const conditions = [];
+    const values = [];
+    let index = 1;
+
+    if (role === "user") {
+        conditions.push(`t.user_id = $${index++}`);
+        values.push(id);
+    }
+
+    if (search && search !== "") {
+        conditions.push(
+            `(LOWER(t.title) LIKE LOWER($${index}) OR LOWER(t.description) LIKE LOWER($${index}))`
         );
+        values.push(`%${search}%`);
+        index++;
+    }
+
+    if (status && status !== "all") {
+        conditions.push(`t.status = $${index++}`);
+        values.push(status);
+    }
+
+    if (priority && priority !== "all") {
+        conditions.push(`t.priority = $${index++}`);
+        values.push(priority);
+    }
+
+    if (user_id && user_id !== "all" && role !== "user") {
+        conditions.push(`t.user_id = $${index++}`);
+        values.push(user_id);
+    }
+
+    if (conditions.length > 0) {
+        sqlQuery += ` WHERE ` + conditions.join(" AND ");
+    }
+
+    sqlQuery += ` ORDER BY t.id DESC;`;
+
+    try {
+        const result = await db.query(sqlQuery, values);
         res.json(result.rows);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -59,12 +108,7 @@ export const updateTask = async (req, res) => {
     if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.message });
     }
-    const { id } = req.params;
-    const { title, description, status, user_id, priority } = parsed.data;
-
-    if (!id) {
-        return res.status(400).json({ error: "ID is required" });
-    }
+    const { id, title, description, status, user_id, priority } = parsed.data;
 
     try {
         const result = await db.query(
@@ -77,6 +121,28 @@ export const updateTask = async (req, res) => {
         const task = await getTaskById(newId);
         res.json(task);
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const completeTask = async (req, res) => {
+    const parsed = completeTaskSchema.safeParse(req.body);
+    if (!parsed.success) {
+        return res.status(400).json({ error: parsed.error.message });
+    }
+    const { id, notes } = parsed.data;
+    const { id: user_id } = req.user;
+
+    try {
+        const result = await db.query(
+            "UPDATE tasks SET status = 'completed', notes = $1 WHERE id = $2 AND user_id = $3 RETURNING id",
+            [notes, id, user_id]
+        );
+
+        const task = await getTaskById(result.rows[0].id);
+        res.json(task);
+    } catch (err) {
+        console.log(" completeTask err: ", err);
         res.status(500).json({ error: err.message });
     }
 };
