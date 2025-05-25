@@ -22,8 +22,8 @@ export const createTask = (task: CreateTask) =>
         },
     });
 
-export const updateTask = (id: number, task: CreateTask) =>
-    axios.put(`${API}/api/tasks`, JSON.stringify({ ...task, id }), {
+export const updateTask = (task: CreateTask) =>
+    axios.put(`${API}/api/tasks`, JSON.stringify(task), {
         headers: {
             "Content-Type": "application/json",
         },

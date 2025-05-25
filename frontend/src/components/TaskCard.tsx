@@ -1,4 +1,4 @@
-import { completeTask, deleteTask, updateTask } from "@/api/tasks";
+import { deleteTask, updateTask } from "@/api/tasks";
 import { ConfirmTaskForm } from "@/components/ConfirmTaskForm";
 import { TaskForm } from "@/components/TaskForm";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -69,7 +69,12 @@ export const TaskCard = ({ task }: { task: Task }) => {
         showLoader();
 
         try {
-            const { data: updatedTask } = await updateTask(task.id, values);
+            const { data: updatedTask } = await updateTask({
+                ...values,
+                user_id: Number(values.user_id),
+                id: task.id,
+                notes: task.notes,
+            });
             setTasks((prev) => {
                 const index = prev.findIndex((t) => t.id === task.id);
                 if (index !== -1) {
@@ -87,15 +92,19 @@ export const TaskCard = ({ task }: { task: Task }) => {
         }
     };
 
-    const handleConfirm = async (values: any) => {
+    const handleUserEdit = async (values: any) => {
         setOpen(false);
         showLoader();
 
         try {
-            const { data: updatedTask } = await completeTask(
-                task.id,
-                values.notes
-            );
+            const { data: updatedTask } = await updateTask({
+                ...values,
+                id: task.id,
+                priority: task.priority,
+                user_id: task.user_id,
+                title: task.title,
+                description: task.description,
+            });
             setTasks((prev) => {
                 const index = prev.findIndex((t) => t.id === task.id);
                 if (index !== -1) {
@@ -211,13 +220,13 @@ export const TaskCard = ({ task }: { task: Task }) => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            {t("confirmTaskModal.modalTitle")}
+                            {t("editTaskModal.modalTitle")}
                         </DialogTitle>
                         <DialogDescription>
-                            {t("confirmTaskModal.modalDescription")}
+                            {t("editTaskModal.modalDescription")}
                         </DialogDescription>
                     </DialogHeader>
-                    <ConfirmTaskForm onSubmit={handleConfirm} />
+                    <ConfirmTaskForm task={task} onSubmit={handleUserEdit} />
                 </DialogContent>
             )}
         </Dialog>

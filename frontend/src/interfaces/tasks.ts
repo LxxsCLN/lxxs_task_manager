@@ -12,11 +12,13 @@ export interface Task {
 }
 
 export interface CreateTask {
+    id: number;
     title: string;
     description?: string | undefined;
-    user_id: string;
+    user_id: number;
     status: string;
     priority: string;
+    notes?: string | undefined | null;
 }
 
 export interface TaskFilters {

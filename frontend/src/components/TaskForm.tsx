@@ -183,7 +183,7 @@ export const TaskForm = ({
                                         {t("home.in_progress")}
                                     </SelectItem>
                                     <SelectItem value="completed">
-                                        {t("home.multiCompleted")}
+                                        {t("home.completed")}
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
