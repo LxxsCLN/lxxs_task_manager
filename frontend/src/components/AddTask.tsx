@@ -36,7 +36,10 @@ export function AddTaskModal() {
         setOpen(false);
         showLoader();
         try {
-            const res: AxiosResponse = await createTask(values);
+            const res: AxiosResponse = await createTask({
+                ...values,
+                user_id: Number(values.user_id),
+            });
 
             const data = await res.data;
 
