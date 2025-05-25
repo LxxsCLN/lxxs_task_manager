@@ -48,9 +48,14 @@ export default function LandingPage() {
     }
 
     async function onSignUp(values: any) {
-        const { name, username, password } = values;
+        const { name, username, password, confirmPassword } = values;
         try {
-            const data = await registerUser({ name, username, password });
+            const data = await registerUser({
+                name,
+                username,
+                password,
+                confirmPassword,
+            });
             login(data.token, data.user);
             navigate("/");
         } catch (err: any) {
@@ -58,7 +63,7 @@ export default function LandingPage() {
                 return toast(t(`landing.username_taken`));
             }
             if (err.status === 400) {
-                return toast(t(`landing.invalid_username`));
+                return toast(t(`home.error`));
             }
         }
     }
