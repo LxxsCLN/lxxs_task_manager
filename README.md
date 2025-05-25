@@ -23,7 +23,7 @@ Aplicación web completa para la gestión de tareas entre usuarios, con autentic
 
 ## 📁 Estructura del Proyecto
 
-### Frontend (`/client`)
+### Frontend (`/frontend`)
 
 -   **Vite + React + TypeScript**
 -   **TailwindCSS** + **shadcn/ui** para los componentes UI
@@ -31,7 +31,7 @@ Aplicación web completa para la gestión de tareas entre usuarios, con autentic
 -   **React Router DOM** para manejo de rutas protegidas
 -   **Axios custom instance** para autenticación con JWT
 
-### Backend (`/server`)
+### Backend (`/backend`)
 
 -   **Node.js + Express**
 -   **PostgreSQL** como base de datos
