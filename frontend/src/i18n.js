@@ -15,7 +15,7 @@ i18n
             en: {
                 translation: {
                     landing: {
-                        title: "NXT Task Manager",
+                        title: "NEXT Task Manager",
                         description:
                             "Manage & Track Your Team's Tasks Efficiently",
                         description2:
@@ -44,7 +44,7 @@ i18n
                         passwords_doNotMatch: "Passwords do not match",
                         name: "Name",
                         confirmPassword: "Confirm Password",
-                        copyright: "NXT Task Manager. All rights reserved.",
+                        copyright: "NEXT Task Manager. All rights reserved.",
                     },
                     home: {
                         title: "Task Manager",
@@ -169,7 +169,7 @@ i18n
             es: {
                 translation: {
                     landing: {
-                        title: "Gestor de Tareas NXT",
+                        title: "Gestor de Tareas NEXT",
                         description:
                             "Gestiona las Tareas de tu Equipo de Manera Eficiente",
                         description2:
@@ -205,7 +205,7 @@ i18n
                         name: "Nombre",
                         confirmPassword: "Confirmar Contraseña",
                         copyright:
-                            "Gestor de Tareas NXT. Todos los derechos reservados.",
+                            "Gestor de Tareas NEXT. Todos los derechos reservados.",
                     },
                     home: {
                         title: "Gestor de Tareas",
