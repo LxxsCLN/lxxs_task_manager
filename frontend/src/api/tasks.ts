@@ -1,5 +1,5 @@
 import { CreateTask } from "@/interfaces/tasks";
-import axios from "axios";
+import axios from "./axios";
 
 const API = import.meta.env.VITE_APP_SERVER_URL;
 

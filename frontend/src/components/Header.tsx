@@ -1,3 +1,4 @@
+import { LogOutButton } from "@/components/ui/LogOutButton";
 import LanguageToggle from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTranslation } from "react-i18next";
@@ -21,6 +22,7 @@ export const Header = () => {
                 <div className="flex gap-4">
                     <LanguageToggle />
                     <ThemeToggle />
+                    <LogOutButton />
                 </div>
             </div>
         </div>

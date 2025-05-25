@@ -14,6 +14,26 @@ i18n
         resources: {
             en: {
                 translation: {
+                    landing: {
+                        title: "Task Manager",
+                        description: "Manage and track your team's tasks",
+                        getStarted: "Get Started",
+                        register: "Sign Up",
+                        welcome: "Welcome to Task Manager",
+                        welcomeDescription:
+                            "A place to manage and track your team's tasks.",
+                        submit_login: "Log In",
+                        submit_signup: "Sign Up",
+                        username: "Username",
+                        password: "Password",
+                        enterUsername: "Enter your username",
+                        enterPassword: "Enter your password",
+                        invalid_password: "Incorrect password",
+                        invalid_username: "The User was not found",
+                        min_username: "Username must be at least 3 characters",
+                        min_password: "Password must be at least 6 characters",
+                        max_username: "Username must be at most 50 characters",
+                    },
                     home: {
                         title: "Task Manager",
                         description: "Manage and track your team's tasks",
@@ -52,6 +72,8 @@ i18n
                         loading: "Loading...",
                         loadingTasks: "Loading tasks...",
                         pleaseWait: "Please wait...",
+                        unauthorized: "Please log in again.",
+                        error: "An error occurred. Please try again.",
                     },
                     addTaskModal: {
                         modalTitle: "Add a new task",
@@ -119,6 +141,31 @@ i18n
             },
             es: {
                 translation: {
+                    landing: {
+                        title: "Gestor de Tareas",
+                        description:
+                            "Gestiona y realiza un seguimiento de las tareas de tu equipo",
+                        getStarted: "Comenzar",
+                        login: "Iniciar Sesión",
+                        register: "Registrarse",
+                        welcome: "Bienvenido al Gestor de Tareas",
+                        welcomeDescription:
+                            "Un lugar para gestionar y realizar un seguimiento de las tareas de tu equipo.",
+                        submit_login: "Iniciar Sesión",
+                        submit_signup: "Registrarse",
+                        username: "Nombre de Usuario",
+                        password: "Contraseña",
+                        enterUsername: "Ingresa tu nombre de usuario",
+                        enterPassword: "Ingresa tu contraseña",
+                        invalid_password: "Contraseña incorrecta",
+                        invalid_username: "El usuario no fue encontrado",
+                        min_username:
+                            "El nombre de usuario debe tener al menos 3 caracteres",
+                        min_password:
+                            "La contraseña debe tener al menos 6 caracteres",
+                        max_username:
+                            "El nombre de usuario debe tener como máximo 50 caracteres",
+                    },
                     home: {
                         title: "Gestor de Tareas",
                         description:
@@ -158,6 +205,8 @@ i18n
                         loading: "Cargando...",
                         loadingTasks: "Cargando tareas...",
                         pleaseWait: "Por favor, espera...",
+                        unauthorized: "Por favor inicia sesión nuevamente.",
+                        error: "Ocurrió un error. Por favor intenta de nuevo.",
                     },
                     addTaskModal: {
                         modalTitle: "Agregar una nueva tarea",
