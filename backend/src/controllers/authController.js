@@ -12,7 +12,23 @@ export const register = async (req, res) => {
             "INSERT INTO users (name, username, password, role) VALUES ($1, $2, $3, $4) RETURNING id, name, username, role",
             [name, username, hashedPassword, role || "user"]
         );
-        res.status(201).json(result.rows[0]);
+        const user = result.rows[0];
+
+        const token = sign(
+            { id: user.id, username: user.username, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "2h" }
+        );
+
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                name: user.name,
+                username: user.username,
+                role: user.role,
+            },
+        });
     } catch (err) {
         res.status(400).json({ error: err.message, code: err.code });
     }
