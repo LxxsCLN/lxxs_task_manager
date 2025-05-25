@@ -50,6 +50,8 @@ i18n
                         previous: "Previous",
                         page: "Page",
                         loading: "Loading...",
+                        loadingTasks: "Loading tasks...",
+                        pleaseWait: "Please wait...",
                     },
                     addTaskModal: {
                         modalTitle: "Add a new task",
@@ -108,6 +110,10 @@ i18n
                         deleteConfirmationAction: "Delete",
                         taskUpdated: "Task updated successfully!",
                         taskDeleted: "Task deleted successfully!",
+                        taskUpdateError:
+                            "An error occurred while updating the task.",
+                        taskDeleteError:
+                            "An error occurred while deleting the task.",
                     },
                 },
             },
@@ -150,6 +156,8 @@ i18n
                         previous: "Anterior",
                         page: "Página",
                         loading: "Cargando...",
+                        loadingTasks: "Cargando tareas...",
+                        pleaseWait: "Por favor, espera...",
                     },
                     addTaskModal: {
                         modalTitle: "Agregar una nueva tarea",
@@ -211,6 +219,10 @@ i18n
                         deleteConfirmationAction: "Eliminar",
                         taskUpdated: "¡Tarea actualizada exitosamente!",
                         taskDeleted: "¡Tarea eliminada exitosamente!",
+                        taskUpdateError:
+                            "Ocurrió un error al actualizar la tarea.",
+                        taskDeleteError:
+                            "Ocurrió un error al eliminar la tarea.",
                     },
                 },
             },

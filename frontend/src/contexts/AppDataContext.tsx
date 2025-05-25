@@ -9,6 +9,7 @@ type AppDataContextType = {
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
     users: UserType[];
     setUsers: React.Dispatch<React.SetStateAction<UserType[]>>;
+    loading: boolean;
 };
 
 const AppDataContext = createContext<AppDataContextType | undefined>(undefined);
@@ -28,6 +29,7 @@ export const AppDataProvider = ({
 }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [users, setUsers] = useState<UserType[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +40,7 @@ export const AppDataProvider = ({
                 ]);
                 setTasks(tasksResponse.data);
                 setUsers(usersResponse.data);
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -47,7 +50,9 @@ export const AppDataProvider = ({
     }, []);
 
     return (
-        <AppDataContext.Provider value={{ tasks, setTasks, users, setUsers }}>
+        <AppDataContext.Provider
+            value={{ loading, tasks, setTasks, users, setUsers }}
+        >
             {children}
         </AppDataContext.Provider>
     );

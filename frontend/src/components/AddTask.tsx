@@ -9,6 +9,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAppData } from "@/contexts/AppDataContext";
+import { useLoading } from "@/contexts/LoadingContext";
 import { CreateTask } from "@/interfaces/tasks";
 import { AxiosResponse } from "axios";
 import { Plus } from "lucide-react";
@@ -21,6 +22,7 @@ export function AddTaskModal() {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const { setTasks } = useAppData();
+    const { showLoader, hideLoader } = useLoading();
 
     const defaultValues = {
         title: "",
@@ -31,6 +33,7 @@ export function AddTaskModal() {
     };
 
     async function onSubmit(values: CreateTask) {
+        showLoader();
         try {
             const res: AxiosResponse = await createTask(values);
 
@@ -45,6 +48,8 @@ export function AddTaskModal() {
             }
         } catch (err) {
             toast.error(t("addTaskModal.networkError"));
+        } finally {
+            hideLoader();
         }
     }
 

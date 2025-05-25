@@ -35,7 +35,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const { setTasks } = useAppData();
-    const { show, hide } = useLoading();
+    const { showLoader, hideLoader } = useLoading();
 
     const defaultValues = {
         title: task.title,
@@ -46,27 +46,40 @@ export const TaskCard = ({ task }: { task: Task }) => {
     };
 
     const handleDelete = async () => {
-        await deleteTask(task.id);
-        setTasks((prev) => prev.filter((t) => t.id !== task.id));
-        setOpen(false);
-        toast.success(t("editTaskModal.taskDeleted"));
+        showLoader();
+        try {
+            await deleteTask(task.id);
+            setTasks((prev) => prev.filter((t) => t.id !== task.id));
+            setOpen(false);
+            toast.success(t("editTaskModal.taskDeleted"));
+        } catch (error) {
+            toast.error(t("editTaskModal.taskDeleteError"));
+        } finally {
+            hideLoader();
+        }
     };
 
     const handleEdit = async (values: CreateTask) => {
-        show();
-        const { data: updatedTask } = await updateTask(task.id, values);
-        setTasks((prev) => {
-            const index = prev.findIndex((t) => t.id === task.id);
-            if (index !== -1) {
-                const newTasks: Task[] = [...prev];
-                newTasks[index] = updatedTask;
-                return newTasks;
-            }
-            return prev;
-        });
-        setOpen(false);
-        hide();
-        toast.success(t("editTaskModal.taskUpdated"));
+        showLoader();
+
+        try {
+            const { data: updatedTask } = await updateTask(task.id, values);
+            setTasks((prev) => {
+                const index = prev.findIndex((t) => t.id === task.id);
+                if (index !== -1) {
+                    const newTasks: Task[] = [...prev];
+                    newTasks[index] = updatedTask;
+                    return newTasks;
+                }
+                return prev;
+            });
+            setOpen(false);
+            toast.success(t("editTaskModal.taskUpdated"));
+        } catch (error) {
+            toast.error(t("editTaskModal.taskUpdateError"));
+        } finally {
+            hideLoader();
+        }
     };
 
     return (

@@ -4,7 +4,7 @@ import { TaskCard } from "@/components/TaskCard";
 import { TaskFilters } from "@/components/TaskFilters";
 import { Button } from "@/components/ui/button";
 import { useAppData } from "@/contexts/AppDataContext";
-import { AlertCircle, Calendar, User } from "lucide-react";
+import { AlertCircle, Calendar, LoaderCircle, User } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -14,7 +14,7 @@ const Home = () => {
     const [statusFilter, setStatusFilter] = useState("all");
     const [priorityFilter, setPriorityFilter] = useState("all");
     const [userFilter, setUserFilter] = useState<string>("all");
-    const { tasks, setTasks, users, setUsers } = useAppData();
+    const { tasks, loading, users } = useAppData();
 
     const [currentPage, setCurrentPage] = useState(1);
     const tasksPerPage = 6;
@@ -154,7 +154,21 @@ const Home = () => {
                         ))}
                     </div>
 
-                    {filteredTasks.length === 0 && (
+                    {loading && (
+                        <div className="text-center py-12">
+                            <div className="text-gray-400 mb-4">
+                                <LoaderCircle className="h-10 w-10 mx-auto animate-spin" />
+                            </div>
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                                {t("home.loadingTasks")}
+                            </h3>
+                            <p className="text-gray-600 dark:text-gray-300">
+                                {t("home.pleaseWait")}
+                            </p>
+                        </div>
+                    )}
+
+                    {!loading && filteredTasks.length === 0 && (
                         <div className="text-center py-12">
                             <div className="text-gray-400 mb-4">
                                 <Calendar className="h-12 w-12 mx-auto" />

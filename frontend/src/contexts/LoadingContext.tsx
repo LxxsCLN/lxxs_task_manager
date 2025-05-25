@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 
 type LoadingContextType = {
-    show: () => void;
-    hide: () => void;
+    showLoader: () => void;
+    hideLoader: () => void;
     isLoading: boolean;
 };
 
@@ -20,11 +20,11 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const show = () => setIsLoading(true);
-    const hide = () => setIsLoading(false);
+    const showLoader = () => setIsLoading(true);
+    const hideLoader = () => setIsLoading(false);
 
     return (
-        <LoadingContext.Provider value={{ show, hide, isLoading }}>
+        <LoadingContext.Provider value={{ showLoader, hideLoader, isLoading }}>
             {children}
         </LoadingContext.Provider>
     );
