@@ -26,13 +26,21 @@ i18n
                         submit_signup: "Sign Up",
                         username: "Username",
                         password: "Password",
+                        enterName: "Enter your name",
                         enterUsername: "Enter your username",
                         enterPassword: "Enter your password",
+                        enterPasswordAgain: "Enter your password again",
                         invalid_password: "Incorrect password",
                         invalid_username: "The User was not found",
                         min_username: "Username must be at least 3 characters",
                         min_password: "Password must be at least 6 characters",
+                        max_password: "Password must be at most 50 characters",
                         max_username: "Username must be at most 50 characters",
+                        min_name: "Name must be at least 3 characters",
+                        max_name: "Name must be at most 50 characters",
+                        passwords_doNotMatch: "Passwords do not match",
+                        name: "Name",
+                        confirmPassword: "Confirm Password",
                     },
                     home: {
                         title: "Task Manager",
@@ -155,16 +163,26 @@ i18n
                         submit_signup: "Registrarse",
                         username: "Nombre de Usuario",
                         password: "Contraseña",
+                        enterName: "Ingresa tu nombre",
                         enterUsername: "Ingresa tu nombre de usuario",
                         enterPassword: "Ingresa tu contraseña",
+                        enterPasswordAgain: "Ingresa tu contraseña nuevamente",
                         invalid_password: "Contraseña incorrecta",
                         invalid_username: "El usuario no fue encontrado",
                         min_username:
                             "El nombre de usuario debe tener al menos 3 caracteres",
                         min_password:
                             "La contraseña debe tener al menos 6 caracteres",
+                        max_password:
+                            "La contraseña debe tener como máximo 50 caracteres",
                         max_username:
                             "El nombre de usuario debe tener como máximo 50 caracteres",
+                        min_name: "El nombre debe tener al menos 3 caracteres",
+                        max_name:
+                            "El nombre debe tener como máximo 50 caracteres",
+                        passwords_doNotMatch: "Las contraseñas no coinciden",
+                        name: "Nombre",
+                        confirmPassword: "Confirmar Contraseña",
                     },
                     home: {
                         title: "Gestor de Tareas",

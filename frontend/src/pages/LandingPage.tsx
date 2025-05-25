@@ -1,6 +1,7 @@
 import { loginUser, registerUser } from "@/api/auth";
 import { Loading } from "@/components/Loading";
-import { LoginRegisterForm } from "@/components/LoginRegisterForm";
+import { LoginForm } from "@/components/LoginForm";
+import { SignupForm } from "@/components/SignupForm";
 import {
     Card,
     CardDescription,
@@ -101,15 +102,11 @@ export default function LandingPage() {
                         <Card>
                             <CardHeader>
                                 <CardTitle>
-                                    {" "}
                                     {t(`landing.submit_login`)}
                                 </CardTitle>
                                 <CardDescription></CardDescription>
                             </CardHeader>
-                            <LoginRegisterForm
-                                mode="login"
-                                onSubmit={onLogIn}
-                            />
+                            <LoginForm onSubmit={onLogIn} />
                         </Card>
                     </TabsContent>
                     <TabsContent value="signup">
@@ -120,10 +117,7 @@ export default function LandingPage() {
                                 </CardTitle>
                                 <CardDescription></CardDescription>
                             </CardHeader>
-                            <LoginRegisterForm
-                                mode="signup"
-                                onSubmit={onSignUp}
-                            />
+                            <SignupForm onSubmit={onSignUp} />
                         </Card>
                     </TabsContent>
                 </Tabs>

@@ -15,10 +15,10 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
-export const LoginRegisterForm = ({ onSubmit, mode }: any) => {
+export const LoginForm = ({ onSubmit }: any) => {
     const { t } = useTranslation();
 
-    const formSchema = z.object({
+    const loginFormSchema = z.object({
         username: z
             .string()
             .min(3, {
@@ -27,13 +27,18 @@ export const LoginRegisterForm = ({ onSubmit, mode }: any) => {
             .max(50, {
                 message: t("landing.max_username"),
             }),
-        password: z.string().min(6, {
-            message: t("landing.min_password"),
-        }),
+        password: z
+            .string()
+            .min(6, {
+                message: t("landing.min_password"),
+            })
+            .max(50, {
+                message: t("landing.max_password"),
+            }),
     });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof loginFormSchema>>({
+        resolver: zodResolver(loginFormSchema),
         defaultValues: {
             username: "",
             password: "",
@@ -79,7 +84,7 @@ export const LoginRegisterForm = ({ onSubmit, mode }: any) => {
                     />
                 </CardContent>
                 <CardFooter>
-                    <Button type="submit">{t(`landing.submit_${mode}`)}</Button>
+                    <Button type="submit">{t(`landing.submit_login`)}</Button>
                 </CardFooter>
             </form>
         </Form>
