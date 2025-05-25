@@ -104,17 +104,32 @@ export const createTask = async (req, res) => {
 };
 
 export const updateTask = async (req, res) => {
+    const { id: currentUserId, role } = req.user;
+
     const parsed = taskSchema.safeParse(req.body);
     if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.message });
     }
-    const { id, title, description, status, user_id, priority } = parsed.data;
+    const { id, title, description, status, user_id, priority, notes } =
+        parsed.data;
+
+    if (role === "user" && currentUserId !== user_id)
+        return res
+            .status(403)
+            .json({ error: "You are not allowed to update this task" });
+
+    let sqlQuery =
+        "UPDATE tasks SET title = $1, description = $2, status = $3, user_id = $4, priority = $5 WHERE id = $6 RETURNING id";
+    let values = [title, description, status, user_id, priority, id];
+
+    if (role === "user") {
+        sqlQuery =
+            "UPDATE tasks SET status = $1, notes = $2 WHERE id = $3 RETURNING id";
+        values = [status, notes, id];
+    }
 
     try {
-        const result = await db.query(
-            "UPDATE tasks SET title = $1, description = $2, status = $3, user_id = $4, priority = $5 WHERE id = $6 RETURNING *",
-            [title, description, status, user_id, priority, id]
-        );
+        const result = await db.query(sqlQuery, values);
 
         const newId = result.rows[0].id;
 

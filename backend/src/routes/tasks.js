@@ -18,7 +18,7 @@ router.get("/:id", authMiddleware, getTask);
 
 router.post("/", authMiddleware, roleMiddleware("admin"), createTask);
 
-router.put("/", authMiddleware, roleMiddleware("admin"), updateTask);
+router.put("/", authMiddleware, updateTask);
 
 router.put("/complete", authMiddleware, completeTask);
 
