@@ -156,7 +156,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
                                         {t("home.completed")}:{" "}
                                         {new Date(
                                             task.completed_at
-                                        ).toLocaleDateString()}
+                                        ).toLocaleDateString("es-ES")}
                                     </span>
                                 )}
                             </span>
