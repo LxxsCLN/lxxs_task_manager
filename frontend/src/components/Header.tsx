@@ -1,11 +1,13 @@
 import { LogOutButton } from "@/components/ui/LogOutButton";
 import LanguageToggle from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { AddTaskModal } from "./AddTask";
 
 export const Header = () => {
     const { t } = useTranslation();
+    const { user } = useAuth();
 
     return (
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -18,7 +20,8 @@ export const Header = () => {
                 </p>
             </div>
             <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
-                <AddTaskModal />
+                {user?.role === "admin" && <AddTaskModal />}
+
                 <div className="flex gap-4">
                     <LanguageToggle />
                     <ThemeToggle />
