@@ -137,7 +137,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3 min-h-[40px]">
                             {task.description}
                         </p>
 

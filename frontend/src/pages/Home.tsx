@@ -81,7 +81,7 @@ const Home = () => {
                     />
 
                     <StatsCard
-                        label={t("home.completed")}
+                        label={t("home.multiCompleted")}
                         value={taskStats.completed}
                         icon={<Calendar className="h-4 w-4 text-green-600" />}
                         bgColor="bg-green-100"
@@ -144,6 +144,7 @@ const Home = () => {
                         ))}
                     </div>
 
+                    {/* Loading */}
                     {loading && (
                         <div className="text-center py-12">
                             <div className="text-gray-400 mb-4">
@@ -158,6 +159,7 @@ const Home = () => {
                         </div>
                     )}
 
+                    {/* No Tasks */}
                     {!loading && filteredTasks.length === 0 && (
                         <div className="text-center py-12">
                             <div className="text-gray-400 mb-4">

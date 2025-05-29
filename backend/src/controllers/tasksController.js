@@ -119,14 +119,19 @@ export const updateTask = async (req, res) => {
             .json({ error: "You are not allowed to update this task" });
 
     let sqlQuery =
-        "UPDATE tasks SET title = $1, description = $2, status = $3, user_id = $4, priority = $5 WHERE id = $6 RETURNING id";
-    let values = [title, description, status, user_id, priority, id];
+        "UPDATE tasks SET title = $2, description = $3, status = $4, user_id = $5, priority = $6 ";
+    let values = [id, title, description, status, user_id, priority];
 
     if (role === "user") {
-        sqlQuery =
-            "UPDATE tasks SET status = $1, notes = $2 WHERE id = $3 RETURNING id";
-        values = [status, notes, id];
+        sqlQuery = "UPDATE tasks SET status = $2, notes = $3 ";
+        values = [id, status, notes];
     }
+
+    if (status === "completed") {
+        sqlQuery += ", completed_at = NOW() ";
+    }
+
+    sqlQuery += ` WHERE id = $1 RETURNING id`;
 
     try {
         const result = await db.query(sqlQuery, values);

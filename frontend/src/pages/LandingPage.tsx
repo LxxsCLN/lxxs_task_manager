@@ -95,7 +95,7 @@ export default function LandingPage() {
                     {t("landing.description2")}
                 </p>
 
-                <Tabs defaultValue="login" className="w-[400px]">
+                <Tabs defaultValue="login" className="w-[400px] h-[444px]">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="login">
                             {" "}
